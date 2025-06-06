@@ -41,16 +41,21 @@
         <div class="drop-zone" id="dropZone">
             <div class="drop-zone-content">
                 <h3>📏 DFR Calipers</h3>
-                <p>Drag & drop images or text files here</p> <p>or</p>
+                <p>Drag & drop images, text, or PDF files here</p> <p>or</p>
                 <button class="paste-btn" onclick="handlePaste()">Paste from Clipboard</button>
                 <p style="margin-top: 15px; font-size: 13px; color: #888;">Use 'i' button for instructions.</p>
                 <button class="btn browse-files-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button>
             </div>
         </div>
         <div class="content-area" id="contentArea"></div>
+        <div class="pdf-controls" id="pdfControls">
+            <button class="btn action-red" id="prevPDFBtn">&#9664;</button>
+            <span id="pageIndicator">1 / 1</span>
+            <button class="btn action-red" id="nextPDFBtn">&#9654;</button>
+        </div>
     </div>
 
-    <input type="file" id="fileInput" class="file-input" accept="image/*,text/*" onchange="handleFileSelect(event)">
+    <input type="file" id="fileInput" class="file-input" accept="image/*,text/*,application/pdf" onchange="handleFileSelect(event)">
 
     <div id="instructionsModal" class="modal-overlay">
         <div class="modal-content-wrapper">
@@ -87,6 +92,7 @@
         <a href="https://profiles.stanford.edu/rogersaj" target="_blank" rel="noopener noreferrer">Built by A.J. Rogers, May 2025</a>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
