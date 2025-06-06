@@ -10,7 +10,7 @@ let currentColor = '#FF3B30';
         let currentPDFPage = 1;
         let totalPDFPages = 0;
 
-        const PDF_RENDER_SCALE = 3;
+        const PDF_RENDER_SCALE = 6;
         const pdfControls = document.getElementById('pdfControls');
         const pageIndicator = document.getElementById('pageIndicator');
         const prevPDFBtn = document.getElementById('prevPDFBtn');
