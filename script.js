@@ -11,6 +11,10 @@ let currentColor = '#FF3B30';
         let totalPDFPages = 0;
         const pdfControls = document.getElementById('pdfControls');
         const pageIndicator = document.getElementById('pageIndicator');
+        const prevPDFBtn = document.getElementById('prevPDFBtn');
+        const nextPDFBtn = document.getElementById('nextPDFBtn');
+        if (prevPDFBtn) prevPDFBtn.addEventListener('click', prevPDFPage);
+        if (nextPDFBtn) nextPDFBtn.addEventListener('click', nextPDFPage);
         if (window['pdfjsLib']) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         const dropZone = document.getElementById('dropZone');
