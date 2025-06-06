@@ -11,7 +11,7 @@ let currentColor = '#FF3B30';
         let totalPDFPages = 0;
 
         const PDF_RENDER_SCALE = 10;
-        const CALIPER_LINE_WIDTH = 1;
+        const CALIPER_LINE_WIDTH = 3;
         document.documentElement.style.setProperty('--caliper-line-width', `${CALIPER_LINE_WIDTH}px`);
         const pdfControls = document.getElementById('pdfControls');
         const pageIndicator = document.getElementById('pageIndicator');
