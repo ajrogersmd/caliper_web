@@ -225,3 +225,20 @@ body {
     text-decoration: underline;
     color: #8C1515;
 }
+
+.pdf-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    align-items: center;
+    gap: 10px;
+    z-index: 1600;
+}
+
+#pageIndicator {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
