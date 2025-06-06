@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+:root {
+    --caliper-line-width: 1px;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -157,11 +161,11 @@ body {
     background-image: repeating-linear-gradient(to right, transparent 0, transparent 4px, var(--caliper-color, black) 4px, var(--caliper-color, black) 8px);
     background-color: transparent !important;
 }
-.caliper-vertical { width: 2px; cursor: ew-resize; }
-.caliper-horizontal { height: 2px; cursor: move; }
+.caliper-vertical { width: var(--caliper-line-width); cursor: ew-resize; }
+.caliper-horizontal { height: var(--caliper-line-width); cursor: move; }
 
-.rhythm-extension-line { position: absolute; height: 2px; background: var(--caliper-color, black); pointer-events: none; }
-.rhythm-tick-mark { position: absolute; width: 2px; background: var(--caliper-color, black); pointer-events: none; }
+.rhythm-extension-line { position: absolute; height: var(--caliper-line-width); background: var(--caliper-color, black); pointer-events: none; }
+.rhythm-tick-mark { position: absolute; width: var(--caliper-line-width); background: var(--caliper-color, black); pointer-events: none; }
 .caliper.is-reference-caliper .rhythm-extension-line,
 .caliper.is-reference-caliper .rhythm-tick-mark {
      background-image: repeating-linear-gradient(to right, transparent 0, transparent 4px, var(--caliper-color, black) 4px, var(--caliper-color, black) 8px);
