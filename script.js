@@ -6,6 +6,18 @@ let currentColor = '#FF3B30';
         let dragTarget = null;
         let dragOffset = { x: 0, y: 0 };
 
+        let pdfDoc = null;
+        let currentPDFPage = 1;
+        let totalPDFPages = 0;
+        const PDF_RENDER_SCALE = 3;
+        const pdfControls = document.getElementById('pdfControls');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const prevPDFBtn = document.getElementById('prevPDFBtn');
+        const nextPDFBtn = document.getElementById('nextPDFBtn');
+        if (prevPDFBtn) prevPDFBtn.addEventListener('click', prevPDFPage);
+        if (nextPDFBtn) nextPDFBtn.addEventListener('click', nextPDFPage);
+        if (window['pdfjsLib']) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
         const dropZone = document.getElementById('dropZone');
         const contentArea = document.getElementById('contentArea');
 
@@ -29,6 +41,9 @@ let currentColor = '#FF3B30';
             } else if (file.type.startsWith('text/')) {
                 reader.onload = ev => displayText(ev.target.result);
                 reader.readAsText(file);
+            } else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                reader.onload = ev => displayPDF(ev.target.result);
+                reader.readAsArrayBuffer(file);
             }
         }
         function handleFileSelect(event) { if (event.target.files.length > 0) handleFiles(Array.from(event.target.files)); }
@@ -55,12 +70,56 @@ let currentColor = '#FF3B30';
             contentArea.innerHTML = `<button class="clear-content" onclick="clearContent()">× Clear Content</button><div class="pasted-text">${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>`;
             showContent();
         }
+        function displayPDF(arrayBuffer) {
+            pdfjsLib.getDocument({ data: arrayBuffer }).promise.then(pdf => {
+                pdfDoc = pdf;
+                totalPDFPages = pdf.numPages;
+                currentPDFPage = 1;
+                renderPDFPage(currentPDFPage);
+                if (pdfControls) pdfControls.style.display = 'flex';
+            });
+        }
+        function renderPDFPage(num) {
+            if (!pdfDoc) return;
+            pdfDoc.getPage(num).then(page => {
+                const viewport = page.getViewport({ scale: PDF_RENDER_SCALE });
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                page.render({ canvasContext: ctx, viewport: viewport }).promise.then(() => {
+                    const imgData = canvas.toDataURL('image/png');
+                    displayImage(imgData);
+                    updatePDFPageIndicator();
+                    clearAllCalipers();
+                });
+            });
+        }
+        function nextPDFPage() {
+            if (currentPDFPage < totalPDFPages) {
+                currentPDFPage++;
+                renderPDFPage(currentPDFPage);
+            }
+        }
+        function prevPDFPage() {
+            if (currentPDFPage > 1) {
+                currentPDFPage--;
+                renderPDFPage(currentPDFPage);
+            }
+        }
+        function updatePDFPageIndicator() {
+            if (pageIndicator) pageIndicator.textContent = `${currentPDFPage} / ${totalPDFPages}`;
+        }
+        function hidePDFControls() {
+            if (pdfControls) pdfControls.style.display = 'none';
+        }
         function showContent() {
             dropZone.classList.add('has-content'); contentArea.classList.add('has-content');
         }
         function clearContent() {
             contentArea.innerHTML = ''; contentArea.classList.remove('has-content'); dropZone.classList.remove('has-content');
             clearAllCalipers();
+            pdfDoc = null; currentPDFPage = 1; totalPDFPages = 0; hidePDFControls();
         }
 
         document.querySelectorAll('.color-option').forEach(option => {
