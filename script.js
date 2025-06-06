@@ -9,6 +9,15 @@ let currentColor = '#FF3B30';
         let pdfDoc = null;
         let currentPDFPage = 1;
         let totalPDFPages = 0;
+
+        const PDF_RENDER_SCALE = 3;
+        const pdfControls = document.getElementById('pdfControls');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const prevPDFBtn = document.getElementById('prevPDFBtn');
+        const nextPDFBtn = document.getElementById('nextPDFBtn');
+        if (prevPDFBtn) prevPDFBtn.addEventListener('click', prevPDFPage);
+        if (nextPDFBtn) nextPDFBtn.addEventListener('click', nextPDFPage);
+
         const pdfControls = document.getElementById('pdfControls');
         const pageIndicator = document.getElementById('pageIndicator');
         if (window['pdfjsLib']) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -77,7 +86,11 @@ let currentColor = '#FF3B30';
         function renderPDFPage(num) {
             if (!pdfDoc) return;
             pdfDoc.getPage(num).then(page => {
+
+                const viewport = page.getViewport({ scale: PDF_RENDER_SCALE });
+
                 const viewport = page.getViewport({ scale: 1.5 });
+
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 canvas.height = viewport.height;
