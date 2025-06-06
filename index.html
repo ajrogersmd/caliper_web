@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFR Calipers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>DFR Calipers</h1>
+        <div class="header-controls">
+            <button class="btn action-red" onclick="createCaliper()">Add Caliper</button>
+            <button class="btn action-red" onclick="addRhythmCaliper()">Add Rhythm Caliper</button>
+            <div class="color-selector">
+                <div class="color-option selected" style="background: #FF3B30" data-color="#FF3B30"></div>
+                <div class="color-option" style="background: #007AFF" data-color="#007AFF"></div>
+                <div class="color-option" style="background: #00FF00" data-color="#00FF00"></div>
+                <div class="color-option" style="background: #FFFF00" data-color="#FFFF00"></div>
+                <div class="color-option" style="background: #800080" data-color="#800080"></div>
+                <div class="color-option" style="background: #FF9500" data-color="#FF9500"></div>
+            </div>
+            <button class="btn action-red" onclick="addReferenceCaliper()">Add Reference</button>
+            <div class="reference-controls">
+                <label for="referenceSelect" id="referenceLabel">Set Ref (ms): </label>
+                <div class="reference-selector">
+                    <select id="referenceSelect" onchange="updateReferenceValue()">
+                        <option value="25">25 ms</option> <option value="50">50 ms</option>
+                        <option value="100">100 ms</option> <option value="200">200 ms</option>
+                        <option value="250">250 ms</option> <option value="400">400 ms</option>
+                        <option value="500">500 ms</option> <option value="1000" selected>1000 ms</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn clear" onclick="clearAllCalipers()">Clear Calipers</button>
+            <div class="info-button" id="infoButton" onclick="toggleModal('instructionsModal', true)">i</div>
+        </div>
+    </div>
+
+    <div class="workspace">
+        <div class="drop-zone" id="dropZone">
+            <div class="drop-zone-content">
+                <h3>📏 DFR Calipers</h3>
+                <p>Drag & drop images or text files here</p> <p>or</p>
+                <button class="paste-btn" onclick="handlePaste()">Paste from Clipboard</button>
+                <p style="margin-top: 15px; font-size: 13px; color: #888;">Use 'i' button for instructions.</p>
+                <button class="btn browse-files-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+            </div>
+        </div>
+        <div class="content-area" id="contentArea"></div>
+    </div>
+
+    <input type="file" id="fileInput" class="file-input" accept="image/*,text/*" onchange="handleFileSelect(event)">
+
+    <div id="instructionsModal" class="modal-overlay">
+        <div class="modal-content-wrapper">
+            <span class="modal-close-button" onclick="toggleModal('instructionsModal', false)">&times;</span>
+            <h2 class="modal-title">DFR Calipers - Instructions</h2>
+            <div class="modal-text-content">
+                <p>Measure distances on images/text (pixels), with optional conversion to ms & bpm.</p>
+                <h3>Functions:</h3>
+                <ul>
+                    <li><strong>Add Calipers:</strong> Select "Add Caliper" or "Add Rhythm Caliper". Multiple calipers may be added.
+                    <li><strong>Add Reference:</strong>Select "Add Reference".</li>
+                    <li><strong>Move:</strong> Drag caliper's central square on the horizontal bar.</li>
+                    <li><strong>Resize:</strong> Drag main vertical lines or their square handles.</li>
+                    <li><strong>Remove:</strong> Right-click on any part of a caliper.</li>
+                    <li><strong>Color:</strong> Click a color swatch to change active color.</li>
+                </ul>
+                <h3>Reference Caliper & Units</h3>
+                <ul>
+                    <li>With an <strong>Active Reference Caliper</strong>: Select ms value in "Set Ref (ms):" dropdown. Primary calipers now show ms/bpm. Reference shows its ms/pixel width.</li>
+                    <li>Without reference, primary calipers show pixels (px). "Set Ref (ms):" dropdown is only active only if a Reference exists.</li>
+                </ul>
+                <h3>Content & Workspace</h3>
+                <ul><li>Drag & drop, paste, or browse for image/text. "Clear Content" / "Clear Calipers" to reset.</li></ul>
+                <ul><li>No content is transmitted. All operations are performed in your browser.</li></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="https://stanford.edu/~rogersaj/calipers" target="_blank" rel="noopener noreferrer">DFR Calipers (Download)</a>
+        ---
+        <a href="https://profiles.stanford.edu/rogersaj" target="_blank" rel="noopener noreferrer">Built by A.J. Rogers, May 2025</a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
